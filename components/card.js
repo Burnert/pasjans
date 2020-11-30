@@ -51,6 +51,7 @@ class GameObject {
     ];
     if (type == 'img') {
       attributes.push({ name: 'src', value: `./gfx/${this.getImgName()}.png` });
+      preloadImage(`./gfx/${this.getImgName()}.png`);
     }
     const element = createElement(type, attributes);
     element.ondragstart = () => false; // Prevent image dragging

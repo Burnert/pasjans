@@ -28,6 +28,22 @@ function PrefixedEvent(element, type, callback) {
 	}
 }
 
+const loadedImages = [];
+function preloadImage(path) {
+  return new Promise((resolve, reject) => {
+    // Image already preloaded
+    if (loadedImages.indexOf(path) != -1) resolve();
+    
+    const image = new Image();
+    image.addEventListener('load', () => {
+      resolve();
+      loadedImages.push(path);
+    });
+    image.addEventListener('error', () => reject());
+    image.src = path;
+  });
+}
+
 // Variables and constants
 
 const gameContainer = document.getElementById('game');
@@ -613,7 +629,7 @@ function parseFile(buffer) {
   };
 }
 
-async function readFile(file) {
+function readFile(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.addEventListener('load', event => {
