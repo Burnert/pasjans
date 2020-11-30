@@ -1305,11 +1305,6 @@ function undo() {
     addScore(-20);
     subtractMove();
   }
-  // const lastMove = moveHistory.pop();
-  // if (!(lastMove.type == 'reserve' && lastMove.reset)) {
-  //   addScore(-20);
-  //   subtractMove();
-  // }
 }
 
 // Button events
