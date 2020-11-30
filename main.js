@@ -33,7 +33,7 @@ function preloadImage(path) {
   return new Promise((resolve, reject) => {
     // Image already preloaded
     if (loadedImages.indexOf(path) != -1) resolve();
-    
+
     const image = new Image();
     image.addEventListener('load', () => {
       resolve();
@@ -1175,6 +1175,9 @@ function placeCards(target, cards) {
       break;
     case 'pile':
       if (cards.length > 1 || cards.length == 0) return;
+      if (cards[0].owner.type == 'reserve') {
+        addScore(5);
+      }
       if (!sameMove) addScore(10);
 
       target.reference.putCard(cards[0]);
