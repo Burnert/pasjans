@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/normalize.css">
+  <link rel="stylesheet" href="./css/default.css">
+  <script src="./components/stack_collection.js"></script>
+  <script src="./components/card.js"></script>
+  <script src="./components/stack.js"></script>
+  <script src="./components/pile.js"></script>
+  <script src="./components/reserve.js"></script>
+  <script src="./cheats.js"></script>
+  <title>Pasjans</title>
+</head>
+<body>
+  <div class="toolbar">
+    <ul>
+      <li>
+        <span class="menubutton"><b>Menu</b></span>
+        <ul class="submenu">
+          <li><span class="menubutton b-newgame">New Game</span></li>
+          <li><span class="menubutton b-restartgame">Restart Game</span></li>
+          <li><span class="menubutton b-pausegame">Pause Game</span></li>
+          <li><span class="menubutton b-savegame">Save Game</span></li>
+          <li><span class="menubutton b-loadgame">Load Game</span></li>
+          <li><span class="menubutton b-settings">Settings</span></li>
+        </ul>
+      </li>
+      <li>
+        <span class="menubutton b-undo"><b>Undo</b></span>
+      </li>
+      <li>
+        <span>Score: </span>
+        <b><span id="scoreDisplay">0</span></b>
+      </li>
+      <li>
+        <span>Time: </span>
+        <b><span id="timeDisplay">0:00</span></b>
+      </li>
+      <li>
+        <span>Moves: </span>
+        <b><span id="movesDisplay">0</span></b>
+      </li>
+    </ul>
+    <ul class="responsive">
+      <li>
+        <span class="menubutton"><b>Menu</b></span>
+        <ul class="submenu">
+          <li><span class="menubutton b-undo"><b>Undo</b></span></li>
+          <li><span class="menubutton b-newgame">New Game</span></li>
+          <li><span class="menubutton b-restartgame">Restart Game</span></li>
+          <li><span class="menubutton b-pausegame">Pause Game</span></li>
+          <li><span class="menubutton b-savegame">Save Game</span></li>
+          <li><span class="menubutton b-loadgame">Load Game</span></li>
+          <li><span class="menubutton b-settings">Settings</span></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div id="game"></div>
+  <div id="settings" class="modal">
+    <div class="modal-window">
+      <div class="top-bar">
+        <h2>Game Settings</h2>
+        <img src="./gfx/cross.png" alt="Close" class="close">
+      </div>
+      <div class="content">
+        <h3>Game Type</h3>
+        <ul>
+          <li><label for="c-gtkl1"><input type="radio" name="gametype" id="c-gtkl1" checked><span>Klondike Turn One</span></label></li>
+          <li><label for="c-gtkl3"><input type="radio" name="gametype" id="c-gtkl3"><span>Klondike Turn Three</span></label></li>
+          <li><label for="c-gtdkl1"><input type="radio" name="gametype" id="c-gtdkl1"><span>Double Klondike Turn One</span></label></li>
+          <li><label for="c-gtdkl3"><input type="radio" name="gametype" id="c-gtdkl3"><span>Double Klondike Turn Three</span></label></li>
+        </ul>
+        <hr>
+        <h3>Card back</h3>
+        <ul>
+          <li><label for="c-cbgreen"><input type="radio" name="cardback" id="c-cbgreen" checked>Green</label></li>
+          <li><label for="c-cbblue"><input type="radio" name="cardback" id="c-cbblue">Blue</label></li>
+          <li><label for="c-cbpurple"><input type="radio" name="cardback" id="c-cbpurple">Purple</label></li>
+          <li><label for="c-cbred"><input type="radio" name="cardback" id="c-cbred">Red</label></li>
+          <li><label for="c-cbyellow"><input type="radio" name="cardback" id="c-cbyellow">Yellow</label></li>
+          <li><label for="c-cbgray"><input type="radio" name="cardback" id="c-cbgray">Gray</label></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="game-over" class="modal">
+    <div class="modal-window">
+      <div class="top-bar">
+        <h2>Congratulations!</h2>
+        <img src="./gfx/cross.png" alt="Close" class="close">
+      </div>
+      <div class="content">
+        <div id="ytplayer"></div>
+        <div class="horiz-menu">
+          <span class="menubutton" id="b-newgame2">New Game</span>
+          <span class="menubutton" id="b-restartgame2">Restart Game</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="pause" class="modal">
+    <div class="modal-window">
+      <div class="top-bar">
+        <h2>Pause</h2>
+        <img src="./gfx/cross.png" alt="Close" class="close">
+      </div>
+      <div class="content">
+        <h3>The game has been paused!</h3>
+      </div>
+    </div>
+  </div>
+  <div id="load" class="modal">
+    <div class="modal-window">
+      <div class="top-bar">
+        <h2>Load Game</h2>
+        <img src="./gfx/cross.png" alt="Close" class="close">
+      </div>
+      <div class="content">
+        <h3 class="center">Select save file from disk.</h3>
+        <hr>
+        <input type="file" id="in-savefile" accept=".sav">
+        <div class="file-data spaced-elements" style="display: none;">
+          <hr>
+          <h4 class="center">Save file data</h4>
+          <table>
+            <tr>
+              <td>Type</td>
+              <td><b>null</b></td>
+            </tr>
+            <tr>
+              <td>Score</td>
+              <td><b>null</b></td>
+            </tr>
+            <tr>
+              <td>Time</td>
+              <td><b>null</b></td>
+            </tr>
+            <tr>
+              <td>Moves</td>
+              <td><b>null</b></td>
+            </tr>
+          </table>
+          <button id="b-loadsavefile" class="menubutton">Load Game</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./player.js"></script>
+  <script src="./main.js"></script>
+</body>
+</html>
