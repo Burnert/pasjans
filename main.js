@@ -90,6 +90,7 @@ let gameTime = 0;
 let timeHandle = null;
 let bGameStarted = false;
 let bGameOver = false;
+let bAutoCompleting = false;
 
 // const moveHistory = [];
 const stateHistory = [];
@@ -398,6 +399,7 @@ let lastCardClicked;
 let cardClickedTimeout;
 
 const cardMouseDownEvent = (event, card) => {
+  if (bAutoCompleting) return;
   // Check if the timeout is still counting and the card is the same.
   // Only in this case it is a double click.
   if (card == lastCardClicked && cardClickedTimeout) {
@@ -1188,8 +1190,8 @@ function placeCards(target, cards) {
 
   console.log('Placed cards on ', target.reference);
 
-  if (!isAutoCompleting && canAutoComplete()) {
-    isAutoCompleting = true;
+  if (!bAutoCompleting && canAutoComplete()) {
+    bAutoCompleting = true;
     autoComplete();
   }
 
@@ -1246,7 +1248,6 @@ function getStackTopCardsForAutocomplete() {
     .filter(card => findTargetPile(card));
 }
 
-let isAutoCompleting = false;
 function canAutoComplete() {
   return !reservePile.getLength() && 
     !reservePile.hiddenLength() && 
@@ -1272,7 +1273,7 @@ function checkWinCondition() {
 
 function gameOver() {
   bGameOver = true;
-  isAutoCompleting = false;
+  bAutoCompleting = false;
   stopTime();
   openModal(modalGameOver, () => ytPlayer.playVideo());
 }
