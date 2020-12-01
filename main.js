@@ -1240,7 +1240,7 @@ function autoPlaceCardOnPile(card) {
   floatingCards = [];
 }
 
-function getTopCardsForAutocomplete() {
+function getStackTopCardsForAutocomplete() {
   return stacks.filter(stack => stack.getLength() > 0)
     .map(stack => stack.getLast())
     .filter(card => findTargetPile(card));
@@ -1255,8 +1255,8 @@ function canAutoComplete() {
 }
 
 function autoComplete() {
-  const topCards = getTopCardsForAutocomplete();
-  const card = topCards[Math.floor(Math.random() * topCards.length)];
+  const stackTopCards = getStackTopCardsForAutocomplete();
+  const card = stackTopCards[Math.floor(Math.random() * stackTopCards.length)];
   pickupCardsAuto(card);
   autoPlaceCardOnPile(card);
   if (!checkWinCondition()) {
